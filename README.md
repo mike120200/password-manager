@@ -54,12 +54,41 @@
     pm --help
     ```
 
+### **💻 Linux安装**
+
+1. **下载linux/pm可执行文件**
+
+2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
+
+   ```sh
+   mkdir pm_dir
+   ```
+
+3. 将pm移动至`pm_dir`
+
+4. 配置环境变量
+
+   + 将以下`export PATH="/path/pm_dir:$PATH"`放到对应的操作系统的配置文件里面
+
+     ```sh
+     echo 'export PATH="/path/pm_dir:$PATH"' >> ~/.profile
+     source /etc/profile
+     ```
+
+5. **检查是否安装成功**
+
+   ```sh
+   pm --help
+   ```
+
+
+
 ### **🖥️ Windows 安装**
 
 1. **下载** windows/pm.exe **可执行文件**
 
  	2. **创建** pm_dir **文件夹**（其他命名也可，配置环境变量的时候对应上即可）
- 	3. 将pm移动至`pm_dir`
+ 	3. 将pm.exe移动至pm_dir
  	4. 配置环境变量
      + 打开 **控制面板 → 系统 → 高级系统设置 → 环境变量**
      + 在 **系统变量** 或 **用户变量** 里找到 Path
@@ -97,7 +126,7 @@ You can download the compiled pm executable file to your local computer and add 
 
 ### 💻 MacOS Installation
 
- 1. Download the mac/pm executable file
+ 1. **Download the mac/pm executable file**
 
  2. Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
 
@@ -130,10 +159,34 @@ You can download the compiled pm executable file to your local computer and add 
    pm --help 
    ```
 
+### 💻 Linux安装
+
+1. **Download windows/pm.exe executable file**
+
+2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+
+3. **Move** pm **into** pm_dir
+
+4. **Configure environment variables**
+
+   + Place the following `export PATH="/path/pm_dir:$PATH"` into the corresponding operating system's configuration file.
+
+     ```sh
+     echo 'export PATH="/path/pm_dir:$PATH"' >> ~/.profile
+     source /etc/profile
+     ```
+
+5. **Verify installation**
+
+   ```sh
+   pm --help 
+   ```
+
+   
 
 ### **🖥️ Windows Installation**
 
-1. **Download** windows/pm.exe **executable file**
+1. **Download windows/pm.exe executable file**
 
 2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
 
