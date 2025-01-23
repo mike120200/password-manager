@@ -72,7 +72,7 @@
    + 将以下`export PATH="/path/pm_dir:$PATH"`放到对应的操作系统的配置文件里面
 
      ```sh
-     echo 'export PATH="/path/pm_dir:$PATH"' >> ~/.profile
+     echo 'export PATH="/path/pm_dir:$PATH"' >> /etc/profile
      source /etc/profile
      ```
 
@@ -173,7 +173,7 @@ You can download the compiled pm executable file to your local computer and add 
    + Place the following `export PATH="/path/pm_dir:$PATH"` into the corresponding operating system's configuration file.
 
      ```sh
-     echo 'export PATH="/path/pm_dir:$PATH"' >> ~/.profile
+     echo 'export PATH="/path/pm_dir:$PATH"' >> /etc/profile
      source /etc/profile
      ```
 
