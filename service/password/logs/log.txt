@@ -1,0 +1,14 @@
+{"L":"INFO","T":"2025-01-21T12:14:54.434+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:14:54.436+0800","C":"dbfile_Kit/dbfile_Kit.go:199","M":"db is nil"}
+{"L":"INFO","T":"2025-01-21T12:15:19.140+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:15:19.142+0800","C":"dbfile_Kit/dbfile_Kit.go:199","M":"db is nil"}
+{"L":"INFO","T":"2025-01-21T12:17:38.994+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:17:38.995+0800","C":"dbfile_Kit/dbfile_Kit.go:200","M":"db is nil"}
+{"L":"INFO","T":"2025-01-21T12:21:39.419+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:21:39.420+0800","C":"dbfile_Kit/dbfile_Kit.go:202","M":"db is nil"}
+{"L":"INFO","T":"2025-01-21T12:21:47.717+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:21:47.719+0800","C":"dbfile_Kit/dbfile_Kit.go:202","M":"db is nil"}
+{"L":"INFO","T":"2025-01-21T12:23:42.093+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:23:42.095+0800","C":"dbfile_Kit/dbfile_Kit.go:207","M":"db is nil"}
+{"L":"INFO","T":"2025-01-21T12:24:33.835+0800","C":"log/log.go:56","M":"log init success"}
+{"L":"ERROR","T":"2025-01-21T12:24:33.838+0800","C":"dbfile_Kit/dbfile_Kit.go:207","M":"db is nil"}
