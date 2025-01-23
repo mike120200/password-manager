@@ -1,4 +1,9 @@
-# password_manager installation
+# password_manager installation(Offline-capable)
+
+
+
+
+
 <p align="center">
   <a href="#zh">中文</a> | <a href="#en">English</a> |  <a href="https://github.com/mike120200/password_manager/blob/main/README-use.md">使用说明</a>
 </p>
