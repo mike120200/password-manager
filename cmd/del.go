@@ -19,13 +19,20 @@ import (
 // delCmd represents the del command
 var delCmd = &cobra.Command{
 	Use:   "del",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Delete a stored password by its key",
+	Long: `Delete a stored password from the secure database.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+This command allows you to remove a password that was previously stored using a unique key.
+Before deletion, a confirmation prompt will be displayed to prevent accidental deletions.
+
+Example usage:
+
+  pm del
+
+You will be prompted to enter the key associated with the password you want to delete.
+If the key exists, the password will be permanently removed from the database.
+
+Warning: This action is irreversible.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 0 {
 			color.Red.Println("invalid input")
