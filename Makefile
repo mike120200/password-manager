@@ -5,4 +5,4 @@ dev:
 	go mod tidy
 
 windows:
-	GOOS=windows GOARCH=amd64 go build -o ./windows/pm
+	GOOS=windows GOARCH=amd64 go build -o ./windows/pm.exe
