@@ -134,22 +134,29 @@ You can download the compiled pm executable file to your local computer and add 
 
 ### **🖥️ Windows Installation**
 
-	1. **Download** windows/pm.exe **executable file**
+1. **Download** windows/pm.exe **executable file**
 
-	2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
 
-	3. **Move** pm.exe **into** pm_dir
+3. **Move** pm.exe **into** pm_dir
 
-	4. **Configure environment variables**
+4. **Configure environment variables**
 
-	5. Open **Control Panel → System → Advanced System Settings → Environment Variables**
++ Open **Control Panel → System → Advanced System Settings → Environment Variables**
 
-    + Locate **Path** under **System Variables** or **User Variables**
++ Locate **Path** under **System Variables** or **User Variables**
 
-    + Click **Edit**, then add the absolute path of the pm_dir folder
++ Click **Edit**, then add the absolute path of the pm_dir folder
 
-    + **Save the changes and restart CMD**
++ **Save the changes and restart CMD**
 
-	6. *Verify installation**
+5. **Verify installation**
+
+```sh
+pm --help 
+```
+
+
+​    
 
 </details>

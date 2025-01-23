@@ -31,21 +31,24 @@ For example, to store a password for a website, you can use:
 The key should be a unique identifier (e.g., service name or username),
 and the value is the password you want to store.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 0 {
-			color.Red.Println("invalid input")
-			return
-		}
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
 			color.Red.Println(err)
 			return
 		}
-		//获取密码的键
-		key, err := input.GetInput("Enter key")
-		if err != nil {
-			color.Red.Println(err)
-			return
+		var key string
+		if len(args) > 0 {
+			key = args[0]
+		} else {
+			var err error
+			//获取密码的键
+			key, err = input.GetInput("Enter key")
+			if err != nil {
+				color.Red.Println(err)
+				return
+			}
 		}
+
 		//获取密码的值
 		passwordValue, err := input.GetPasswordInput("Enter password")
 		if err != nil {

@@ -31,23 +31,25 @@ You will be prompted to enter the key and the new password. For example:
 The key should match the one used when the password was originally stored.
 If the key exists, the corresponding password will be updated.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 0 {
-			color.Red.Println("invalid input")
-			return
-		}
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
 			color.Red.Println(err)
 			return
 		}
-		//获取密码的键
-		key, err := input.GetInput("Enter key")
-		if err != nil {
-			color.Red.Println(err)
-			return
+		var key string
+		if len(args) > 0 {
+			key = args[0]
+		} else {
+			var err error
+			//获取密码的键
+			key, err = input.GetInput("Enter key")
+			if err != nil {
+				color.Red.Println(err)
+				return
+			}
 		}
 		//获取新密码
-		newPassword, err := input.GetInput("Enter new password")
+		newPassword, err := input.GetPasswordInput("Enter new password")
 		if err != nil {
 			color.Red.Println(err)
 			return

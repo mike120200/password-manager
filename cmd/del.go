@@ -34,20 +34,22 @@ If the key exists, the password will be permanently removed from the database.
 
 Warning: This action is irreversible.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 0 {
-			color.Red.Println("invalid input")
-			return
-		}
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
 			color.Red.Println(err)
 			return
 		}
-		//获取密码的键
-		key, err := input.GetInput("Enter key")
-		if err != nil {
-			color.Red.Println(err)
-			return
+		var key string
+		if len(args) > 0 {
+			key = args[0]
+		} else {
+			var err error
+			//获取密码的键
+			key, err = input.GetInput("Enter key")
+			if err != nil {
+				color.Red.Println(err)
+				return
+			}
 		}
 		if key == "" {
 			color.Red.Println("key is empty")
