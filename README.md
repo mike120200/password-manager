@@ -1,9 +1,5 @@
 # password_manager(Offline-capable) installation
 
-
-
-
-
 <p align="center">
   <a href="#zh">中文</a> | <a href="#en">English</a> |  <a href="https://github.com/mike120200/password_manager/blob/main/README-use.md">使用说明</a>
 </p>
@@ -158,13 +154,13 @@ You can download the compiled pm executable file to your local computer and add 
      ```
 
 
-5. **Verify installation**
+5. **Verify Installation**
 
    ```sh
    pm --help 
    ```
 
-### 💻 Linux安装
+### 💻 Linux Installation
 
 1. **Download windows/pm.exe executable file**
 
@@ -181,7 +177,7 @@ You can download the compiled pm executable file to your local computer and add 
      source /etc/profile
      ```
 
-5. **Verify installation**
+5. **Verify Installation**
 
    ```sh
    pm --help 
