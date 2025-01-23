@@ -78,7 +78,8 @@
 </details>
 
 ---
-<a id="en"></a>📌 English
+## <a id="en"></a>📌 English
+
 <details open>  
 <summary>Expand/Collapse</summary>  
 
