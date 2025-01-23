@@ -1,4 +1,4 @@
-# password_manager installation(Offline-capable)
+# password_manager(Offline-capable) installation
 
 
 
