@@ -23,7 +23,7 @@
 ---
 
 ### **💻 MacOS 安装**
-1. **下载 `pm` 可执行文件**
+1. **下载 mac/pm 可执行文件**
 
 2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
 
@@ -57,7 +57,7 @@
 
 ### **🖥️ Windows 安装**
 
-1. **下载** pm.exe **可执行文件**
+1. **下载** windows/pm.exe **可执行文件**
 
  	2. **创建** pm_dir **文件夹**（其他命名也可，配置环境变量的时候对应上即可）
  	3. 将pm移动至`pm_dir`
@@ -95,8 +95,9 @@ Password Manager is a secure password storage and management tool.
 
 You can download the compiled pm executable file to your local computer and add it to the system environment variables for convenient command-line usage.
 
-💻 MacOS Installation
-	1.	Download the pm executable file
+### 💻 MacOS Installation
+
+​	1.	Download the mac/pm executable file
 
 	2.	Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
 	
@@ -129,6 +130,25 @@ You can download the compiled pm executable file to your local computer and add 
    pm --help 
    ```
 
-   
+
+### **🖥️ Windows Installation**
+
+	1. **Download** windows/pm.exe **executable file**
+
+	2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+
+	3. **Move** pm.exe **into** pm_dir
+
+	4. **Configure environment variables**
+
+	5. Open **Control Panel → System → Advanced System Settings → Environment Variables**
+
+    + Locate **Path** under **System Variables** or **User Variables**
+
+    + Click **Edit**, then add the absolute path of the pm_dir folder
+
+    + **Save the changes and restart CMD**
+
+	6. *Verify installation**
 
 </details>
