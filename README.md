@@ -98,13 +98,13 @@ You can download the compiled pm executable file to your local computer and add 
 
 ### 💻 MacOS Installation
 
-​	1.	Download the mac/pm executable file
+ 1. Download the mac/pm executable file
 
-	2.	Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
-	
-	```sh
-	mkdir pm_dir  
-	```
+ 2. Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
+
+    ```sh
+    mkdir pm_dir  
+    ```
 
 3.  **Move** pm **into** pm_dir
 
