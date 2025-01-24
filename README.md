@@ -17,12 +17,16 @@
 
 ---
 
-### 🚀 安装方法（Mac & Windows）
-你可以将编译后的 `pm` 文件获取到本地电脑，并将其添加到环境变量，以便在命令行中随时使用。
+### 🚀 安装方法（Mac & Windows & linux）
+1. 你可以将编译后的 `pm` 文件获取到本地电脑，并将其添加到环境变量，以便在命令行中随时使用。
+2. 将整个项目克隆到本地后，进入项目目录，运行 `go build -o pm` 命令来编译 Golang 程序，生成可执行文件，并将其路径添加到环境变量，以便在命令行中随时使用。（**推荐**）
+
+
 
 ---
 
 ### **💻 MacOS 安装**
+
 1. **下载 mac.zip 并解压获取里面的可执行文件 pm**
 
 2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
@@ -123,7 +127,8 @@ Password Manager is a secure password storage and management tool.
 
 🚀 Installation Guide (Mac & Windows)
 
-You can download the compiled pm executable file to your local computer and add it to the system environment variables for convenient command-line usage.
+1. You can download the compiled pm executable file to your local computer and add it to the system environment variables for convenient command-line usage.
+2. After cloning the entire project to your local machine, navigate into the project directory and execute the `go build -o pm` command to compile the Golang program, generating an executable file. Then, add its path to your environment variables to make it readily available for use from the command line at any time. (**Recommended**)
 
 ### 💻 MacOS Installation
 
