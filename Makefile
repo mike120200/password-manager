@@ -14,3 +14,6 @@ linux:
 	rm -f ./linux/pm
 	GOOS=linux GOARCH=amd64 go build -o ./linux/pm
 	zip -r linux.zip ./linux/pm
+build:
+	go build -o pm
+	mv pm ~/pm_dir

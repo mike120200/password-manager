@@ -34,11 +34,11 @@ func LoggerInit() error {
 		// fmt.Println("目录已创建：")
 	}
 	fileConfig := &lumberjack.Logger{
-		Filename:   logDir + logFile, //日志文件存放目录，如果文件夹不存在会自动创建
-		MaxSize:    5,                //文件大小限制,单位MB
-		MaxBackups: 5,                //最大保留日志文件数量
-		MaxAge:     30,               //日志文件保留天数
-		Compress:   false,            //是否压缩处理
+		Filename:   logFile, //日志文件存放目录，如果文件夹不存在会自动创建
+		MaxSize:    5,       //文件大小限制,单位MB
+		MaxBackups: 5,       //最大保留日志文件数量
+		MaxAge:     30,      //日志文件保留天数
+		Compress:   false,   //是否压缩处理
 	}
 	//zapcore.AddSync 函数通常用于将一个 io.Writer 转换为 zapcore.WriteSyncer 接口的实现。
 	//zapcore.WriteSyncer 是 zap 包中的一个接口，它扩展了 io.Writer 接口，增加了一个 Sync 方法，
