@@ -23,7 +23,7 @@
 ---
 
 ### **💻 MacOS 安装**
-1. **下载 mac/pm 可执行文件**
+1. **下载 mac.zip 并解压获取里面的可执行文件 pm**
 
 2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
 
@@ -57,7 +57,7 @@
 
 ### **💻 Linux安装**
 
-1. **下载linux/pm可执行文件**
+1. **下载 linux.zip 并解压获取里面的可执行文件 pm**
 
 2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
 
@@ -86,7 +86,7 @@
 
 ### **🖥️ Windows 安装**
 
-1. **下载** windows/pm.exe **可执行文件**
+1. **下载 windows.zip 并解压获取里面的可执行文件 pm.exe**
 
  	2. **创建** pm_dir **文件夹**（其他命名也可，配置环境变量的时候对应上即可）
  	3. 将pm.exe移动至pm_dir
@@ -127,7 +127,7 @@ You can download the compiled pm executable file to your local computer and add 
 
 ### 💻 MacOS Installation
 
- 1. **Download the mac/pm executable file**
+ 1. **Download mac.zip and extract it to obtain the executable file pm inside.**
 
  2. Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
 
@@ -162,7 +162,7 @@ You can download the compiled pm executable file to your local computer and add 
 
 ### 💻 Linux Installation
 
-1. **Download windows/pm.exe executable file**
+1. **Download linux.zip and extract it to obtain the executable file pm inside.**
 
 2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
 
@@ -187,7 +187,7 @@ You can download the compiled pm executable file to your local computer and add 
 
 ### **🖥️ Windows Installation**
 
-1. **Download windows/pm.exe executable file**
+1. **Download windows.zip and extract it to obtain the executable file pm.exe inside.**
 
 2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
 
