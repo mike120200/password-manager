@@ -48,6 +48,21 @@ pm query <key_name>
 
 ---
 
+### 根据平台信息查找
+
+#### 简介：输入平台信息的关键词进行查找
+
+```sh
+pm pla
+Enter platform : 
+```
+
+```sh
+pm pla <platform>
+```
+
+---
+
 ### 列出所有已存密码
 
 #### 简介：列出所有已存密码
@@ -158,6 +173,23 @@ pm query <key_name>
 ```
 
 ---
+
+### Search by Platform Information
+
+#### Introduction: Enter keywords related to the platform information to perform a search.
+
+```sh
+pm pla
+Enter platform : 
+```
+
+```sh
+pm pla <platform>
+```
+
+---
+
+### 
 
 ### **List All Stored Passwords**
 

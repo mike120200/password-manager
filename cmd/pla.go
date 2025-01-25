@@ -11,6 +11,7 @@ import (
 	"password_manager/service/input"
 	"password_manager/service/password"
 	secretkey "password_manager/service/secret_key"
+	"strings"
 
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
@@ -88,7 +89,7 @@ If no passwords are found for the platform, a message will be shown.`,
 		}
 		cnt := 0
 		for k, v := range results {
-			if v.Platform != platform {
+			if !strings.Contains(v.Platform, platform) {
 				continue
 			}
 			cnt++
