@@ -18,18 +18,20 @@ import (
 // updateCmd represents the update command
 var updateCmd = &cobra.Command{
 	Use:   "update",
-	Short: "Update a stored password",
-	Long: `Update a stored password in the secure storage.
+	Short: "Update a stored password or platform",
+	Long: `Update a stored password or platform information in the encrypted storage.
 
-This command allows you to update the password associated with a specific key.
-You will be prompted to enter the key and the new password. For example:
+This command allows you to update the password or platform associated with a specific key.
+You will be prompted to enter the key, the new password (optional), and the new platform (optional). 
+For example:
 
   pm update
   Enter key: github_john.doe
-  Enter new password: ********
+  Enter new password (optional): ********
+  Enter new platform (optional): GitHub
 
-The key should match the one used when the password was originally stored.
-If the key exists, the corresponding password will be updated.`,
+If the key exists, the corresponding password or platform will be updated. 
+If no new password or platform is provided, the existing values will remain unchanged.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
@@ -42,18 +44,33 @@ If the key exists, the corresponding password will be updated.`,
 		} else {
 			var err error
 			//获取密码的键
-			key, err = input.GetInput("Enter key")
+			key, err = input.GetInput("Enter key or account")
 			if err != nil {
 				color.Red.Println(err)
 				return
 			}
 		}
+		if key == "" {
+			color.Red.Println("Key or account cannot be empty")
+			return
+		}
 		//获取新密码
-		newPassword, err := input.GetPasswordInput("Enter new password")
+		newPassword, err := input.GetOptionalPassword("Enter new password(optional, press Enter to skip)")
 		if err != nil {
 			color.Red.Println(err)
 			return
 		}
+		//获取新平台信息
+		newPlatform, err := input.GetOptionalInput("Enter new platform(optional, press Enter to skip)")
+		if err != nil {
+			color.Red.Println(err)
+			return
+		}
+		if newPlatform == "" && newPassword == "" {
+			color.Red.Println("New password and new platform cannot be empty at the same time")
+			return
+		}
+		//获取新用户名
 		//初始化密钥模块
 		secretKeyInstance := secretkey.NewSecretKey()
 
@@ -81,11 +98,17 @@ If the key exists, the corresponding password will be updated.`,
 		aesInstance := aes.NewAesService(secretKey)
 		//初始化密码保存模块
 		passwordInstance := password.NewPasswordService(aesInstance, db)
-		err = passwordInstance.UpdatePassword(key, newPassword)
+		err = passwordInstance.UpdatePassword(key, newPassword, newPlatform)
 		if err != nil {
 			color.Red.Println(err)
 			return
 		}
+		err = kitInstance.BackupDB()
+		if err != nil {
+			color.Red.Println(err)
+			return
+		}
+		color.Green.Println("backup successfully")
 	},
 }
 

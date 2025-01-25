@@ -7,21 +7,26 @@
 ## <a id="zh"></a>📌 中文
 <details open>
 <summary>展开/折叠</summary>
+
+
+
 ### 添加密码
 
-#### 简介：存储一个密码对
+#### 简介：存储账号、密码、此账号密码使用的平台（可选填，直接按enter即可）
 
 #### 使用方法：
 
 ```sh
 pm add
-Enter Key : key_name
+Enter Key or account : key_name
 Enter password : ******
+Enter platform(optional) : 
 ```
 
 ```sh
 pm add <key_name>
 Enter password : ******
+Enter platform(optional) : 
 ```
 
 ---
@@ -101,7 +106,15 @@ pm del <key_name>
 pm backup
 ```
 
+### 从备份文件恢复数据
 
+#### 简介：从备份文件恢复数据
+
+#### 使用方法：
+
+```sh
+pm restore
+```
 
 </details>
 
@@ -110,19 +123,21 @@ pm backup
 <summary>展开/折叠</summary>
 ### Add a Password
 
-#### Description: Store a password key-value pair.
+#### Description: Store the account, password, and the platform used for this account password (optional, press enter)
 
 #### Usage:
 
 ```sh
 pm add
-Enter Key: key_name
-Enter password: ******
+Enter Key or account : key_name
+Enter password : ******
+Enter platform(optional) :
 ```
 
 ```sh
 pm add <key_name>
-Enter password: ******
+Enter password : ******
+Enter platform(optional) : 
 ```
 
 ---
@@ -200,6 +215,16 @@ pm del <key_name>
 
 ```sh
 pm backup
+```
+
+### Restore form backup file
+
+#### Description:Restore datas from backup files
+
+#### Usage:
+
+```sh
+pm restore
 ```
 
 

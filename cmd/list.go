@@ -18,15 +18,20 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List all stored passwords",
-	Long: `List all stored passwords from the secure storage.
+	Short: "List all stored passwords and their details",
+	Long: `List all stored passwords and their associated details from the encrypted storage.
 
-This command retrieves and displays all password key-value pairs that have been
-previously stored. Each entry is displayed in the format "key: value". For example:
+This command retrieves and displays all stored password entries, including the key, password, 
+and optional platform information. Each entry is displayed in a clear format for easy reading. 
+For example:
 
   pm list
 
-The output will show all keys and their corresponding decrypted passwords.`,
+Output:
+  github_john.doe (GitHub) : my-secure-password123
+  email_jane.doe : another-password
+
+If a platform is associated with a password, it will be shown in parentheses next to the key.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 0 {
 			color.Red.Println("invalid input")
@@ -70,7 +75,15 @@ The output will show all keys and their corresponding decrypted passwords.`,
 			return
 		}
 		for k, v := range results {
-			color.Blue.Printf("\n" + k + " : " + v + "\n")
+			if v.Platform == "" {
+				color.Blue.Printf("\n" + k + " : ")
+				color.Green.Printf(v.Password + "\n")
+			} else {
+				color.Blue.Printf("\n" + k)
+				color.Cyan.Printf(" (" + v.Platform + ") : ")
+				color.Green.Printf(v.Password + "\n")
+			}
+
 		}
 		fmt.Println()
 	},

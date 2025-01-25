@@ -26,6 +26,23 @@ func GetInput(label string) (string, error) {
 		color.Yellow.Println("Please do not leave the input empty.")
 	}
 }
+
+// GetOptionInput获取可选填的数据
+func GetOptionalInput(label string) (string, error) {
+	var input string
+
+	// 使用 survey.Input 类型
+	prompt := &survey.Input{
+		Message: label, // 提示信息
+	}
+
+	// 读取用户输入
+	err := survey.AskOne(prompt, &input)
+	if err != nil {
+		return "", nil
+	}
+	return input, nil
+}
 func GetPasswordInput(label string) (string, error) {
 	for {
 		var password string
@@ -46,4 +63,21 @@ func GetPasswordInput(label string) (string, error) {
 		color.Yellow.Println("Please do not leave the input empty.")
 
 	}
+}
+
+func GetOptionalPassword(label string) (string, error) {
+	var password string
+
+	// 使用 survey 的 Password 类型
+	prompt := &survey.Password{
+		Message: label,
+	}
+
+	// 读取密码输入
+	err := survey.AskOne(prompt, &password)
+	if err != nil {
+		return "", err
+	}
+
+	return password, nil
 }

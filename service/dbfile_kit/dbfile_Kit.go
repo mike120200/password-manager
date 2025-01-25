@@ -13,17 +13,19 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gookit/color"
 	"go.etcd.io/bbolt"
 	"go.uber.org/zap"
 )
 
 const (
-	BucketName            = "passwords"
+	PasswordBucketName    = "passwords"
+	PlatformLenBucketName = "platformsLen"
 	FileDBName            = "data.db"
 	BackupDBName          = "data.backup.db"
 	timeStampKey          = "time-stamp"
 	TimeStampBucket       = "time_stamp_bucket"
-	BackupIntervalSeconds = 1000
+	BackupIntervalSeconds = 500
 )
 
 // 验证DBFileKit接口是否实现
@@ -101,6 +103,7 @@ func (srv *DBKitImpl) Init() error {
 	} else {
 		backupFile := filepath.Join(dir, BackupDBName)
 		if srv.isDbFileExist(backupFile) {
+			color.Yellow.Printf("db file not found.")
 			//开始恢复流程
 			result := srv.restoreDataProcess(backupFile, dbFile)
 			if !result {
@@ -182,14 +185,24 @@ func (srv *DBKitImpl) InitFromBackupFile() error {
 	if err != nil {
 		return err
 	}
-	// 确保数据库打开后创建基本 bucket
+	// 确保数据库打开后创建bucket
 	err = db.Update(func(tx *bbolt.Tx) error {
-		_, err := tx.CreateBucketIfNotExists([]byte(BucketName))
+		_, err := tx.CreateBucketIfNotExists([]byte(PasswordBucketName))
 		return err
 	})
 	if err != nil {
 		db.Close()
-		srv.logger.Error("create bucket fail:", zap.Error(err))
+		srv.logger.Error("create password bucket fail:", zap.Error(err))
+		return err
+	}
+	// 确保数据库打开后创建bucket
+	err = db.Update(func(tx *bbolt.Tx) error {
+		_, err := tx.CreateBucketIfNotExists([]byte(PlatformLenBucketName))
+		return err
+	})
+	if err != nil {
+		db.Close()
+		srv.logger.Error("create platformLen bucket fail:", zap.Error(err))
 		return err
 	}
 	srv.db = db
@@ -215,23 +228,57 @@ func (srv *DBKitImpl) initDB(dbFile string) (*bbolt.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	// 确保数据库打开后创建基本 bucket
+	// 确保数据库打开后创建bucket
 	err = db.Update(func(tx *bbolt.Tx) error {
-		_, err := tx.CreateBucketIfNotExists([]byte(BucketName))
+		_, err := tx.CreateBucketIfNotExists([]byte(PasswordBucketName))
 		return err
 	})
 	if err != nil {
 		db.Close()
-		srv.logger.Error("create bucket fail:", zap.Error(err))
+		srv.logger.Error("create password bucket fail:", zap.Error(err))
+		return nil, err
+	}
+	// 确保数据库打开后创建bucket
+	err = db.Update(func(tx *bbolt.Tx) error {
+		_, err := tx.CreateBucketIfNotExists([]byte(PlatformLenBucketName))
+		return err
+	})
+	if err != nil {
+		db.Close()
+		srv.logger.Error("create platformLen bucket fail:", zap.Error(err))
 		return nil, err
 	}
 	return db, nil
 }
 
+// RestoreDB 恢复数据库
+func (srv *DBKitImpl) RestoreDB() error {
+	var dir string
+	if srv.dirPath != "" {
+		dir = srv.dirPath
+	} else {
+		// 获取当前可执行文件的路径
+		exePath, err := os.Executable()
+		if err != nil {
+			srv.logger.Error("can't get executable path", zap.Error(err))
+			return err
+		}
+		dir = filepath.Dir(exePath)
+	}
+
+	dbFile := filepath.Join(dir, FileDBName)
+	backupFile := filepath.Join(dir, BackupDBName)
+	result := srv.restoreDataProcess(backupFile, dbFile)
+	if !result {
+		return errors.New("restore db fail")
+	}
+	return nil
+}
+
 // restoreDataProcess 恢复的流程
 func (srv *DBKitImpl) restoreDataProcess(backupPath, mainDBPath string) bool {
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Database not found. Do you want to restore the data? (y/n): ")
+	color.Yellow.Println("Do you want to restore the data? (y/n): ")
 	for {
 		input, _ := reader.ReadString('\n')               // 读取输入
 		input = strings.TrimSpace(strings.ToLower(input)) // 去除换行符并转换为小写
@@ -243,7 +290,7 @@ func (srv *DBKitImpl) restoreDataProcess(backupPath, mainDBPath string) bool {
 				srv.logger.Error("restore db fail:", zap.Error(err))
 				return false
 			}
-			fmt.Println("Data restored successfully.")
+			color.Green.Println("Data restored successfully.")
 			return true
 		} else if input == "n" {
 			fmt.Println("Data will not be restored.")
@@ -406,5 +453,18 @@ func (srv *DBKitImpl) checkTimeStamp() (bool, error) {
 		return false, err
 	}
 	srv.logger.Debug("timestamp checked successfully")
-	return timeStamp >= lastTimestamp+BackupIntervalSeconds, nil
+	result := timeStamp >= lastTimestamp+BackupIntervalSeconds
+	if result {
+		// 将时间戳转换为 time.Time
+		t := time.Unix(timeStamp, 0)
+
+		// 格式化时间为字符串
+		formattedTime := t.Format("2006-01-02 15:04:05")
+		color.Gray.Println("Last backup time:", formattedTime)
+	} else {
+		t := time.Unix(lastTimestamp, 0)
+		formattedTime := t.Format("2006-01-02 15:04:05")
+		color.Gray.Println("Last backup time:", formattedTime)
+	}
+	return result, nil
 }

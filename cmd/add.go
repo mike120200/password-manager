@@ -18,18 +18,21 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Store a password key-value pair",
-	Long: `Store a password key-value pair in the secure storage.
+	Short: "Securely store a password",
+	Long: `Securely store a password in the encrypted storage.
 
-This command allows you to securely store a password by associating it with a unique key.
+This command allows you to save a password by associating it with a unique identifier (key).
 For example, to store a password for a website, you can use:
 
   pm add
   Enter key: github_john.doe
-  Enter value: mysecurepassword123
+  Enter password: my-secure-password123
+  Enter platform (optional, press Enter to skip): GitHub
 
-The key should be a unique identifier (e.g., service name or username),
-and the value is the password you want to store.`,
+The key should be a unique identifier (e.g., service name, username, or account),
+and the value is the password you want to store. The optional platform field can 
+be used to specify the service or application associated with the password.
+If you do not need to specify a platform, simply press Enter to skip.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
@@ -42,15 +45,24 @@ and the value is the password you want to store.`,
 		} else {
 			var err error
 			//获取密码的键
-			key, err = input.GetInput("Enter key")
+			key, err = input.GetInput("Enter key or account")
 			if err != nil {
 				color.Red.Println(err)
 				return
 			}
 		}
-
+		if key == "" {
+			color.Red.Println("Key or account cannot be empty")
+			return
+		}
 		//获取密码的值
 		passwordValue, err := input.GetPasswordInput("Enter password")
+		if err != nil {
+			color.Red.Println(err)
+			return
+		}
+		//输入平台
+		platform, err := input.GetOptionalInput("Enter platform (optional, press Enter to skip)")
 		if err != nil {
 			color.Red.Println(err)
 			return
@@ -82,12 +94,18 @@ and the value is the password you want to store.`,
 		aesInstance := aes.NewAesService(secretKey)
 		//初始化密码保存模块
 		passwordInstance := password.NewPasswordService(aesInstance, db)
-		err = passwordInstance.SavePassword(key, passwordValue)
+		err = passwordInstance.SavePassword(key, passwordValue, platform)
 		if err != nil {
 			color.Red.Println(err)
 			return
 		}
-		color.Green.Println("Password saved successfully!")
+		//备份
+		err = kitInstance.BackupDB()
+		if err != nil {
+			color.Red.Println(err)
+			return
+		}
+		color.Green.Println("Password saved  and backup successfully!")
 	},
 }
 

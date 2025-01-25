@@ -27,17 +27,27 @@
 
 ### **💻 MacOS 安装**
 
-1. **下载 mac.zip 并解压获取里面的可执行文件 pm**
+1. 克隆仓库到本地
 
-2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
+    ```sh
+    git clone https://github.com/mike120200/terminal-password-manager.git
+    ```
+
+2. 编译golang程序生成可执行文件
+
+    ```sh
+    go build -o pm
+    ```
+
+3. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
 
    ```sh
    mkdir pm_dir
    ```
 
-3. 将pm移动至`pm_dir`
+4. 将pm移动至`pm_dir`
 
-4. 配置环境变量
+5. 配置环境变量
 
     + 设置 Zsh 终端的环境变量，`path`替换成真实的路径
 
@@ -53,7 +63,7 @@
       source ~/.bash_profile
       ```
 
-5. **检查是否安装成功**
+6. **检查是否安装成功**
 
     ```sh
     pm --help
@@ -61,17 +71,27 @@
 
 ### **💻 Linux安装**
 
-1. **下载 linux.zip 并解压获取里面的可执行文件 pm**
+1. 克隆仓库到本地
 
-2. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
+   ```sh
+   git clone https://github.com/mike120200/terminal-password-manager.git
+   ```
+
+2. 编译golang程序生成可执行文件
+
+   ```sh
+   go build -o pm
+   ```
+
+3. 创建pm_dir目录（其他命名也可，配置环境变量的时候对应上即可）
 
    ```sh
    mkdir pm_dir
    ```
 
-3. 将pm移动至`pm_dir`
+4. 将pm移动至`pm_dir`
 
-4. 配置环境变量
+5. 配置环境变量
 
    + 将以下`export PATH="/path/pm_dir:$PATH"`放到对应的操作系统的配置文件里面
 
@@ -80,7 +100,7 @@
      source /etc/profile
      ```
 
-5. **检查是否安装成功**
+6. **检查是否安装成功**
 
    ```sh
    pm --help
@@ -90,17 +110,29 @@
 
 ### **🖥️ Windows 安装**
 
-1. **下载 windows.zip 并解压获取里面的可执行文件 pm.exe**
+1. 克隆仓库到本地
 
- 	2. **创建** pm_dir **文件夹**（其他命名也可，配置环境变量的时候对应上即可）
- 	3. 将pm.exe移动至pm_dir
- 	4. 配置环境变量
+   ```sh
+   git clone https://github.com/mike120200/terminal-password-manager.git
+   ```
+
+2. 编译golang程序生成可执行文件
+
+   ```sh
+   go build -o pm
+   ```
+
+  3. **创建** pm_dir **文件夹**（其他命名也可，配置环境变量的时候对应上即可）
+
+  4. 将pm.exe移动至pm_dir
+
+  5. 配置环境变量
      + 打开 **控制面板 → 系统 → 高级系统设置 → 环境变量**
      + 在 **系统变量** 或 **用户变量** 里找到 Path
      + 点击 **编辑**，新增 文件夹`pm_dir`的绝对路径
      + **保存后重启 CMD**
 
-5. **检查是否安装成功**
+6. **检查是否安装成功**
 
    ```sh
    pm --help
@@ -132,17 +164,27 @@ Password Manager is a secure password storage and management tool.
 
 ### 💻 MacOS Installation
 
- 1. **Download mac.zip and extract it to obtain the executable file pm inside.**
+ 1. Clone the repository to your local machine
 
- 2. Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
+    ```sh
+    git clone https://github.com/mike120200/terminal-password-manager.git
+    ```
+
+ 2. Compile the Golang program to generate an executable file
+
+    ```sh
+    go build -o pm
+    ```
+
+ 3. Create a pm_dir directory (you can use any name, just ensure it matches in the environment variable configuration)
 
     ```sh
     mkdir pm_dir  
     ```
 
-3.  **Move** pm **into** pm_dir
+4. **Move** pm **into** pm_dir
 
-4. **Configure environment variables**
+5. **Configure environment variables**
 
    + *For Zsh terminal**, replace path with th*e actual directory path
 
@@ -167,13 +209,23 @@ Password Manager is a secure password storage and management tool.
 
 ### 💻 Linux Installation
 
-1. **Download linux.zip and extract it to obtain the executable file pm inside.**
+1. Clone the repository to your local machine
 
-2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+   ```sh
+   git clone https://github.com/mike120200/terminal-password-manager.git
+   ```
 
-3. **Move** pm **into** pm_dir
+ 2. Compile the Golang program to generate an executable file
 
-4. **Configure environment variables**
+    ```sh
+    go build -o pm
+    ```
+
+3. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+
+4. **Move** pm **into** pm_dir
+
+5. **Configure environment variables**
 
    + Place the following `export PATH="/path/pm_dir:$PATH"` into the corresponding operating system's configuration file.
 
@@ -182,7 +234,7 @@ Password Manager is a secure password storage and management tool.
      source /etc/profile
      ```
 
-5. **Verify Installation**
+6. **Verify Installation**
 
    ```sh
    pm --help 
@@ -192,13 +244,23 @@ Password Manager is a secure password storage and management tool.
 
 ### **🖥️ Windows Installation**
 
-1. **Download windows.zip and extract it to obtain the executable file pm.exe inside.**
+1. Clone the repository to your local machine
 
-2. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+   ```sh
+   git clone https://github.com/mike120200/terminal-password-manager.git
+   ```
 
-3. **Move** pm.exe **into** pm_dir
+ 2. Compile the Golang program to generate an executable file
 
-4. **Configure environment variables**
+    ```sh
+    go build -o pm
+    ```
+
+3. **Create a** pm_dir **folder** (you can use any name, just ensure it matches in the environment variable configuration)
+
+4. **Move** pm.exe **into** pm_dir
+
+5. **Configure environment variables**
 
 + Open **Control Panel → System → Advanced System Settings → Environment Variables**
 

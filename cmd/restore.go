@@ -12,23 +12,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// backupCmd represents the backup command
-var backupCmd = &cobra.Command{
-	Use:   "backup",
-	Short: "Backup the password database",
-	Long: `Create a backup of the password database to ensure data security.
+// restoreCmd represents the restore command
+var restoreCmd = &cobra.Command{
+	Use:   "restore",
+	Short: "Restore credentials from a backup file",
+	Long: `Restore credentials from a backup file to the main database.
 
-This command initializes the necessary modules and then securely
-backs up the stored password database. If the backup process is
-successful, a confirmation message will be displayed.
+This command allows you to restore all previously backed-up credentials from a backup file
+into the main database. The backup file should be located in the same directory as the
+main database file and named 'backup.json'.
 
-Example usage:
+Example:
+  pm restore
 
-  pm backup
-
-This ensures that your stored credentials remain safe in case of
-unexpected issues.`,
+The restore process will overwrite any existing data in the main database with the data
+from the backup file. Use this command with caution.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) != 0 {
+			color.Red.Println("invalid args")
+			return
+		}
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
 			color.Red.Println(err)
@@ -39,24 +42,23 @@ unexpected issues.`,
 
 		//初始化数据库模块
 		kitInstance := dbfilekit.NewDBKit(secretKeyInstance)
-		if err := kitInstance.BackupDB(); err != nil {
+		if err := kitInstance.RestoreDB(); err != nil {
 			color.Red.Println(err)
 			return
 		}
-		color.Green.Println("backup success")
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(backupCmd)
+	rootCmd.AddCommand(restoreCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// backupCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// restoreCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// backupCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// restoreCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

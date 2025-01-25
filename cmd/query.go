@@ -19,17 +19,23 @@ import (
 // queryCmd represents the find command
 var queryCmd = &cobra.Command{
 	Use:   "query",
-	Short: "Retrieve a stored password by its key",
-	Long: `Retrieve a stored password by its associated key from the secure storage.
+	Short: "Retrieve a stored password by key",
+	Long: `Retrieve a stored password and its associated details by key from the encrypted storage.
 
-This command allows you to securely retrieve a password that was previously stored
-using a unique key (e.g., service name or username). For example:
+This command allows you to securely retrieve a password and its optional platform information
+using the unique key (e.g., service name or username) that was used when the password was stored.
+For example:
 
   pm query
   Enter key: github_john.doe
 
-The key should match the one used when the password was stored. If the key exists,
-the corresponding password will be decrypted and displayed.`,
+  -------
+
+  pm query github_john.doe
+
+If the key exists, the corresponding password and platform (if available) will be decrypted
+and displayed in the following format:
+  github_john.doe (GitHub) : my-secure-password123`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
@@ -42,13 +48,16 @@ the corresponding password will be decrypted and displayed.`,
 		} else {
 			var err error
 			//获取密码的键
-			key, err = input.GetInput("Enter key")
+			key, err = input.GetInput("Enter key or account")
 			if err != nil {
 				color.Red.Println(err)
 				return
 			}
 		}
-
+		if key == "" {
+			color.Red.Println("Key or account cannot be empty")
+			return
+		}
 		//初始化密钥模块
 		secretKeyInstance := secretkey.NewSecretKey()
 
@@ -76,13 +85,17 @@ the corresponding password will be decrypted and displayed.`,
 		aesInstance := aes.NewAesService(secretKey)
 		//初始化密码保存模块
 		passwordInstance := password.NewPasswordService(aesInstance, db)
-		result, err := passwordInstance.GetPasswordWithKey(key)
+		password, platform, err := passwordInstance.GetPasswordWithKey(key)
 		if err != nil {
 			color.Red.Println(err)
 			return
 		}
 		fmt.Println()
-		color.Blue.Println(key + " : " + result)
+		if platform == "" {
+			color.Blue.Println(key + " : " + password)
+		} else {
+			color.Blue.Printf("\n" + key + "(" + platform + ")" + " : " + password + "\n")
+		}
 		fmt.Println()
 	},
 }

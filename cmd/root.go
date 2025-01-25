@@ -1,6 +1,5 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -10,21 +9,39 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
-
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "pm",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "A secure password manager for storing and managing encrypted credentials",
+	Long: `pm is a secure password manager designed to store and manage your credentials in an encrypted format.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+This tool allows you to:
+  - Securely store passwords with unique keys and optional platform information.
+  - Retrieve stored passwords by their associated keys.
+  - Update existing passwords or platform details.
+  - List all stored credentials for easy management.
+  - Delete a stored password by its key.
+  - Backup all stored credentials to a file.
+  - Restore credentials from a backup file.
+  - Automatically backup all credentials every 500 seconds while the program is running.
+
+All data is encrypted using AES encryption, ensuring your passwords are safe and protected.
+
+Examples:
+  - Store a new password:    pm add
+  - Retrieve a password:     pm query
+  - Update a password:       pm update
+  - List all passwords:      pm list
+  - Delete a password:       pm del
+  - Backup all passwords:    pm backup
+  - Restore from backup:     pm restore
+
+Automatic Backup:
+  - While the program is running, a backup of all credentials will be created every 500 seconds.
+  - The backup file will be saved in the same directory as the main database file.
+
+For more information on a specific command, use 'pm [command] --help'.`,
+
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -47,5 +64,3 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
-

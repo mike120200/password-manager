@@ -45,7 +45,7 @@ Warning: This action is irreversible.`,
 		} else {
 			var err error
 			//获取密码的键
-			key, err = input.GetInput("Enter key")
+			key, err = input.GetInput("Enter key or account")
 			if err != nil {
 				color.Red.Println(err)
 				return
