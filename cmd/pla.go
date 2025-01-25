@@ -20,12 +20,15 @@ import (
 // platformCmd represents the platform command
 var platformCmd = &cobra.Command{
 	Use:   "pla",
-	Short: "List all passwords associated with a specific platform",
-	Long: `List all passwords associated with a specific platform from the encrypted storage.
+	Short: "Fuzzy search and list passwords associated with a specific platform",
+	Long: `Fuzzy search and list all passwords associated with a specific platform from the encrypted storage.
 
 This command allows you to retrieve and display all passwords that are associated with
-a specific platform (e.g., GitHub, Google, etc.). If no platform is provided as an argument,
-you will be prompted to enter one.
+a specific platform (e.g., GitHub, Google, etc.) using fuzzy search. If no platform is
+provided as an argument, you will be prompted to enter one.
+
+Fuzzy search allows you to find results even if the platform name is partially matched
+or contains minor typos. For example, searching for "Gith" may return results for "GitHub".
 
 Examples:
   - List passwords for a specific platform:
@@ -33,10 +36,10 @@ Examples:
 
   - Enter platform interactively:
     pm pla
-    Enter platform: GitHub
+    Enter platform: Gith
 
-The output will display all keys and their corresponding passwords for the specified platform.
-If no passwords are found for the platform, a message will be shown.`,
+The output will display all keys and their corresponding passwords for platforms that
+match the search term. If no passwords are found, a message will be shown.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//初始化日志模块
 		if err := zaplog.LoggerInit(); err != nil {
