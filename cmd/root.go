@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "pm",
 	Short: "A secure password manager for storing and managing encrypted credentials",
@@ -24,6 +23,7 @@ This tool allows you to:
   - Backup all stored credentials to a file.
   - Restore credentials from a backup file.
   - Automatically backup all credentials every 500 seconds while the program is running.
+  - List passwords associated with a specific platform.
 
 All data is encrypted using AES encryption, ensuring your passwords are safe and protected.
 
@@ -35,13 +35,13 @@ Examples:
   - Delete a password:       pm del
   - Backup all passwords:    pm backup
   - Restore from backup:     pm restore
+  - List passwords by platform: pm pla
 
 Automatic Backup:
   - While the program is running, a backup of all credentials will be created every 500 seconds.
   - The backup file will be saved in the same directory as the main database file.
 
 For more information on a specific command, use 'pm [command] --help'.`,
-
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
