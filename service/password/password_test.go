@@ -21,7 +21,7 @@ func TestSavePasswordAndGetPassword(t *testing.T) {
 	os.Remove("./test.gob")
 	os.Remove("./data.db")
 	os.Remove("./data.backup.db")
-	
+
 	defer func() {
 		os.Remove("./test.gob")
 
@@ -195,23 +195,27 @@ func TestUpdatePassword(t *testing.T) {
 		key       string
 		password  string
 		platform  string
+		newKey    string
 	}{
-		{"common_test", "test_init", "test-password-1", "google"},
-		{"common_test", "test_init", "test-password-2", "edge"},
-		{"empty_key_test", "", "test-password-3", "google"},
-		{"empty_password_test", "test_init", "", "google"},
-		{"empty_platform_test", "test_init", "test-password-5", ""},
+		{"common_test_changeAll", "test_init", "test-password-1", "google", ""},
+		{"common_test_changeAll", "test_init", "test-password-2", "edge", ""},
+		{"empty_key_test", "", "test-password-3", "google", ""},
+		{"empty_password_test", "test_init", "", "google", ""},
+		{"empty_platform_test", "test_init", "test-password-5", "", ""},
+		{"common_test_changeKey", "test_init", "", "", "test_new"},
 	}
 	var expectedValue = []struct {
 		err      error
+		key      string
 		password string
 		platform string
 	}{
-		{nil, "test-password-1", "google"},
-		{nil, "test-password-2", "edge"},
-		{errors.New("key is empty"), "", ""},
-		{nil, "test-password-2", "google"},
-		{nil, "test-password-5", "google"},
+		{nil, "test_init", "test-password-1", "google"},
+		{nil, "test_init", "test-password-2", "edge"},
+		{errors.New("key is empty"), "test_init", "", ""},
+		{nil, "test_init", "test-password-2", "google"},
+		{nil, "test_init", "test-password-5", "google"},
+		{nil, "test_new", "test-password-5", "google"},
 	}
 	//初始化密钥实例
 	secretKeyInstance := secretkey.NewSecretKeyWithFilePath("./test.gob")
@@ -254,7 +258,7 @@ func TestUpdatePassword(t *testing.T) {
 
 	for i, testCase := range testCases {
 		t.Run(testCase.test_name, func(t *testing.T) {
-			err := passwordInstance.UpdatePassword(testCase.key, testCase.password, testCase.platform)
+			err := passwordInstance.UpdatePassword(testCase.key, testCase.password, testCase.platform, testCase.newKey)
 			if !assert.Equal(expectedValue[i].err, err) {
 				t.Errorf("expect err %v, but got %v", expectedValue[i].err, err)
 				return
@@ -262,7 +266,7 @@ func TestUpdatePassword(t *testing.T) {
 			if err != nil {
 				return
 			}
-			value, platform, err = passwordInstance.GetPasswordWithKey("test_init")
+			value, platform, err = passwordInstance.GetPasswordWithKey(expectedValue[i].key)
 			if err != nil {
 				t.Log(err.Error())
 				return

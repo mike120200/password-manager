@@ -55,6 +55,12 @@ If no new password or platform is provided, the existing values will remain unch
 			return
 		}
 		//获取新密码
+		newKey, err := input.GetOptionalInput("Enter new Key or account(optional, press Enter to skip)")
+		if err != nil {
+			color.Red.Println(err)
+			return
+		}
+		//获取新密码
 		newPassword, err := input.GetOptionalPassword("Enter new password(optional, press Enter to skip)")
 		if err != nil {
 			color.Red.Println(err)
@@ -66,8 +72,8 @@ If no new password or platform is provided, the existing values will remain unch
 			color.Red.Println(err)
 			return
 		}
-		if newPlatform == "" && newPassword == "" {
-			color.Red.Println("New password and new platform cannot be empty at the same time")
+		if newPlatform == "" && newPassword == "" && newKey == "" {
+			color.Red.Println("New password , new platform and newKey cannot be empty at the same time")
 			return
 		}
 		//获取新用户名
@@ -98,7 +104,7 @@ If no new password or platform is provided, the existing values will remain unch
 		aesInstance := aes.NewAesService(secretKey)
 		//初始化密码保存模块
 		passwordInstance := password.NewPasswordService(aesInstance, db)
-		err = passwordInstance.UpdatePassword(key, newPassword, newPlatform)
+		err = passwordInstance.UpdatePassword(key, newPassword, newPlatform, newKey)
 		if err != nil {
 			color.Red.Println(err)
 			return

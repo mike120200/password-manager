@@ -71,7 +71,8 @@ func (srv *PasswordService) SavePassword(key, password, platform string) error {
 		srv.logger.Debug("save password failed, key has been set ", zap.String("key", key))
 		return errors.New("key has been set")
 	}
-	err = srv.updateDb(key, password, platform)
+	//第一次存因此newKey参赛可以为空
+	err = srv.updateDb(key, password, platform, "")
 	if err != nil {
 		srv.logger.Error("save password failed:", zap.Error(err))
 		return err
@@ -203,7 +204,7 @@ func (srv *PasswordService) GetAllPasswords() (map[string]PasswordData, error) {
 }
 
 // UpdatePassword 更新密码
-func (srv *PasswordService) UpdatePassword(key, newPassword, newPlatform string) error {
+func (srv *PasswordService) UpdatePassword(key, newPassword, newPlatform, newKey string) error {
 	var (
 		password    string
 		platform    string
@@ -269,10 +270,13 @@ func (srv *PasswordService) UpdatePassword(key, newPassword, newPlatform string)
 	}
 
 	srv.logger.Sugar().Debugf("password:" + password)
-	err = srv.updateDb(key, password, platform)
+	err = srv.updateDb(key, password, platform, newKey)
 	if err != nil {
 		srv.logger.Error("update db failed:", zap.Error(err))
 		return err
+	}
+	if newKey != "" {
+		color.Green.Println("key updated successfully:" + key + " -> " + newKey)
 	}
 	if newPassword != "" {
 		color.Green.Println("password updated successfully:" + oldPassword + " -> " + newPassword)
@@ -309,7 +313,7 @@ func (srv *PasswordService) getPlatformLen(key string, tx *bbolt.Tx) (int, error
 }
 
 // updateDb 更新数据库
-func (srv *PasswordService) updateDb(key string, password string, platform string) error {
+func (srv *PasswordService) updateDb(key string, password string, platform string, newKey string) error {
 	if key == "" {
 		srv.logger.Error("key is empty")
 		return errors.New("key is empty")
@@ -339,26 +343,28 @@ func (srv *PasswordService) updateDb(key string, password string, platform strin
 
 	// 将密码存入 BoltDB
 	err = srv.db.Update(func(tx *bbolt.Tx) error {
-		//存入密码
-		bucket := tx.Bucket([]byte(dbfilekit.PasswordBucketName))
-		if bucket == nil {
-			srv.logger.Error("password bucket not found")
-			return errors.New("password bucket not found")
+		if newKey == "" {
+			//没有修改key就直接更新
+			err := srv.updateWithTx(key, encryptedValue, platformLenByte, tx)
+			if err != nil {
+				srv.logger.Error("updateWithTx failed:", zap.Error(err))
+				return err
+			}
+		} else {
+			//更新
+			err := srv.updateWithTx(newKey, encryptedValue, platformLenByte, tx)
+			if err != nil {
+				srv.logger.Error("updateWithTx failed:", zap.Error(err))
+				return err
+			}
+			//删除之前的
+			err = srv.deleteWithTx(key, tx)
+			if err != nil {
+				srv.logger.Error("deleteWithTx failed:", zap.Error(err))
+				return err
+			}
 		}
-		if err := bucket.Put([]byte(key), []byte(encryptedValue)); err != nil {
-			srv.logger.Error("save password failed:", zap.Error(err))
-			return err
-		}
-		//存入平台长度
-		bucket = tx.Bucket([]byte(dbfilekit.PlatformLenBucketName))
-		if bucket == nil {
-			srv.logger.Error("platformLen bucket not found")
-			return errors.New("platformLen bucket not found")
-		}
-		if err := bucket.Put([]byte(key), platformLenByte); err != nil {
-			srv.logger.Error("save platformLen failed:", zap.Error(err))
-			return err
-		}
+
 		return nil
 	})
 
@@ -390,28 +396,60 @@ func (srv *PasswordService) DeletePassword(key string) error {
 	}
 	//执行删除操作
 	err = srv.db.Update(func(tx *bbolt.Tx) error {
-		bucket := tx.Bucket([]byte(dbfilekit.PasswordBucketName))
-		if bucket == nil {
-			srv.logger.Error("password bucket not found")
-			return errors.New("password bucket not found")
-		}
-		err := bucket.Delete([]byte(key))
-		if err != nil {
-			return err
-		}
-		bucket = tx.Bucket([]byte(dbfilekit.PlatformLenBucketName))
-		if bucket == nil {
-			srv.logger.Error("platformLen bucket not found")
-			return errors.New("platform bucket not found")
-		}
-		err = bucket.Delete([]byte(key))
-		if err != nil {
-			return err
-		}
-		return nil
+		return srv.deleteWithTx(key, tx)
 	})
 	if err != nil {
 		srv.logger.Error("delete password failed:", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
+// deleteWithTx在数据库中执行操作
+func (srv *PasswordService) deleteWithTx(key string, tx *bbolt.Tx) error {
+	srv.logger.Info("deleteInDb key:", zap.String("key", key))
+	bucket := tx.Bucket([]byte(dbfilekit.PasswordBucketName))
+	if bucket == nil {
+		srv.logger.Error("password bucket not found")
+		return errors.New("password bucket not found")
+	}
+	err := bucket.Delete([]byte(key))
+	if err != nil {
+		return err
+	}
+	bucket = tx.Bucket([]byte(dbfilekit.PlatformLenBucketName))
+	if bucket == nil {
+		srv.logger.Error("platformLen bucket not found")
+		return errors.New("platform bucket not found")
+	}
+	err = bucket.Delete([]byte(key))
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// updateWithTx 使用tx操作
+func (srv *PasswordService) updateWithTx(key string, encryptedValue []byte, platformLenByte []byte, tx *bbolt.Tx) error {
+	srv.logger.Info("updateWithTx key:", zap.String("key", key))
+	// 存入密码
+	bucket := tx.Bucket([]byte(dbfilekit.PasswordBucketName))
+	if bucket == nil {
+		srv.logger.Error("password bucket not found")
+		return errors.New("password bucket not found")
+	}
+	if err := bucket.Put([]byte(key), encryptedValue); err != nil {
+		srv.logger.Error("save password failed:", zap.Error(err))
+		return err
+	}
+	// 存入平台长度
+	bucket = tx.Bucket([]byte(dbfilekit.PlatformLenBucketName))
+	if bucket == nil {
+		srv.logger.Error("platformLen bucket not found")
+		return errors.New("platformLen bucket not found")
+	}
+	if err := bucket.Put([]byte(key), platformLenByte); err != nil {
+		srv.logger.Error("save platformLen failed:", zap.Error(err))
 		return err
 	}
 	return nil
