@@ -2,3 +2,6 @@ data.backup.db
 data.db
 logs
 *.gob
+windows
+linux
+mac
