@@ -318,6 +318,10 @@ func (srv *PasswordService) updateDb(key string, password string, platform strin
 		srv.logger.Error("key is empty")
 		return errors.New("key is empty")
 	}
+	if key == newKey {
+		srv.logger.Error("newKey is the same as key")
+		return errors.New("newKey is the same as key")
+	}
 	if password == "" {
 		srv.logger.Error("password is empty")
 		return errors.New("password is empty")
